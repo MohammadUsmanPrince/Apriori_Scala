@@ -1,0 +1,8 @@
+0.5
+0.7
+D,J,L,M,P,R,U,V,W,Y,Z,
+B,C,D,I,L,M,Q,R,S,T,U,V,W,Z,
+A,B,C,D,F,H,I,J,M,O,T,U,Z,
+A,C,E,F,G,J,K,L,N,P,Q,S,T,U,V,X,Y,
+A,F,G,H,I,L,M,R,S,T,V,W,X,
+A,B,C,D,E,I,K,L,N,P,Q,T,U,
