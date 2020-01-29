@@ -4,7 +4,7 @@ import scala.io.Source
 import java.io.PrintWriter
 import Array._
 import sun.security.util.Length
-object apriori_random_file {
+object test {
   def main(args:Array[String])
   {
     var r = scala.util.Random
@@ -55,38 +55,39 @@ object apriori_random_file {
     var count=Triplets.flatten.groupBy(identity).map(x=>(x._1,x._2.size)).toList.sortBy(_._1)
     println("After first DB scan, the items with their occurances are :")
     count.foreach(println)
+   
+   
     var filteredsorted=count.sortBy(_._1).filter(_._2>=support)
      println("frequent 1 itemset with their occurances are")
     filteredsorted.foreach(println)
-    var len=filteredsorted.length
     println("/////////////////////////////")
-    var vrt=filteredsorted.map(X=>filteredsorted.takeRight(filteredsorted.length-(filteredsorted.indexOf(X)+1))
-         .map(y=>List(X._1,y._1))).flatten
-      vrt.foreach(println)
-    while(len>1)
-    {
-      var k=2
-      var cont:Array[Int]=new Array[Int](vrt.length)
-      for(i <- 0 to vrt.length-1)
-      {
-        var ct=0
-        for(j <- 0 to Triplets.length-1)
-        {
-      if(vrt(i).intersect(Triplets(j))==vrt(i))
-        ct=ct+1
-        }
-        cont(i)=ct
-      }
-    println("Frequent "+k+"th itemset with their occurances are")
-    for(i <-0 to (cont.length-1))
-    {
-      if(cont(i)>=support)
-    println(vrt(i)+">>>"+cont(i))
-    }
-    vrt=vrt.map(X=>vrt.takeRight(vrt.length-(vrt.indexOf(X)+1))
-         .map(y=>List(X._1,y._1))).flatten
-      vrt.foreach(println)
-      k=k+1
-    }
+     //var vrt=filteredsorted.map(X=>filteredsorted.takeRight(filteredsorted.length-(filteredsorted.indexOf(X)+1))
+         //.map(y=>List(X._1,y._1))).flatten
+      //vrt.foreach(println)
+      //var v1=filteredsorted.map(x=>filteredsorted.takeRight(filteredsorted.length-(filteredsorted.indexOf(x)+1)).map(y=>x:::y)).flatten
+  // sorted.map(x=>sorted.takeRight(n)) 
+   var tt=filteredsorted.combinations(2).toList//.toList.flatten
+    //println("v")
+ tt.foreach(println)
+   var v1=tt.map(x=>Triplets.map(y=>if(x.intersect(y)==x) 1 else 0)).map(x=>x.count(_==1)).zip(tt).filter(_._1>=support).map(_._2)
+  println("...................k=2 itemsets.....................")
+ // var t=v1.flatten
+  v1.foreach(println)
+   tt= v1.map(x=>v1.dropWhile(_==x).map(y=>if(x(x.length-1)==y(1))(x:::y).distinct else x )).map(x=>x.filter(_.length==3)).flatten
+   tt.foreach(println)
+  v1=tt.map(x=>Triplets.map(y=>if(x.intersect(y)==x) 1 else 0)).map(x=>x.count(_==1)).zip(tt).filter(_._1>=support).map(_._2)
+  println("...................k=3 itemsets.....................")
+   v1.foreach(println)
+  var i=2
+  var k=4
+  while(v1.length>1)
+  {
+  tt=v1.map(x=>v1.dropWhile(_==x).map(y=>if(x.take(i)==y.take(i)) (x.take(i):::y.take(i)).distinct else x)).map(x=>x.filter(_.length==k)).flatten  
+    k=k+1
+    i=i+1
+    v1=tt.map(x=>Triplets.map(y=>if(x.intersect(y)==x) 1 else 0)).map(x=>x.count(_==1)).zip(tt).filter(_._1>=support).map(_._2)
+  println("...................k="+k+" itemsets.....................")
+   v1.foreach(println)
+  }
   }
 }
